@@ -1,12 +1,12 @@
 import type { SiteConfig, SiteContent } from "../types";
 
+
 export const SITE_CONFIG: SiteConfig = {
   title: "Esteban Mares — Software Engineer",
   author: "",
   description:
-    "Software Engineer based in San Francisco, USA. I specialize in UI design, web and mobile application development and maintenance.",
+    "Software Engineer based in California. I specialize in Software Engineering, backend engineering and full-stack development.",
   lang: "en",
-  siteLogo: "/alejandro-small.jpg",
   navLinks: [
     { text: "Experience", href: "#experience" },
     { text: "Projects", href: "#projects" },
@@ -26,7 +26,7 @@ export const SITE_CONTENT: SiteContent = {
     specialty: "Software Engineer",
     summary:
       "Software engineer based in California, passionate about creating efficient solutions. I specialize in full-stack development, system optimization, and building scalable web applications that solve real-world problems.",
-    email: "example@email.com",
+    email: "estebanmares17@gmail.com"
   },
   experience: [
     {
@@ -54,6 +54,13 @@ export const SITE_CONTENT: SiteContent = {
   ],
   projects: [
     {
+      name: "LabelGenius",
+      summary: "A barcode label generator that transforms CSV and Excel data into print-ready label sheets in seconds.",
+      linkPreview: "https://labelgenius.up.railway.app/",
+      linkSource: "https://github.com/emares17/BarcodeGenerator",
+      image: "/LabelGenius.png",
+    },
+    {
       name: "Shortly",
       summary: "A URL shortening service that allows users to create short links for long URLs.",
       linkPreview: "https://shortly-url.up.railway.app/#",
@@ -70,12 +77,8 @@ export const SITE_CONTENT: SiteContent = {
   ],
   about: {
     description: `
-      Hi, I’m Alejandro Múnez, a passionate Mobile and Web Developer with a knack for crafting seamless digital experiences. With a strong background in both Android and iOS development, as well as front-end web technologies, I thrive in the intersection where creativity meets technology.
-
-      Over the years, I’ve honed my skills in building robust, user-friendly applications that not only meet the needs of users but also push the boundaries of what’s possible. My projects range from innovative mobile applications to responsive web designs, all with a focus on performance, security, and scalability.
-    `,
-    image: "/alejandro-big.jpg",
+      I'm a passionate software engineer and full-stack developer with expertise in Java, Python, React, and Node.js. I specialize in building scalable, responsive web applications and have hands-on experience as both a frontend developer and backend developer. Skilled in API development, database design, agile methodologies, and cloud deployment, I thrive in collaborative environments and am driven to solve real-world business challenges through high-quality software solutions. I'm currently seeking opportunities as a software engineer, full-stack developer, or backend engineer.
+      `
   },
 };
 
-// #5755ff
