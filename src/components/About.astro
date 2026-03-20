@@ -2,14 +2,61 @@
 import Section from "./Section.astro";
 import type { AboutProps } from "@types";
 
-
 type Props = AboutProps;
 
 const { description } = Astro.props;
+
+const skillGroups = [
+  {
+    label: "// languages",
+    color: "bg-green",
+    items: ["java", "python", "typescript", "sql"],
+  },
+  {
+    label: "// backend_&_data",
+    color: "bg-amber",
+    items: ["spring_boot", "node.js", "rest_apis", "postgresql"],
+  },
+  {
+    label: "// cloud_&_devops",
+    color: "bg-cyan",
+    items: ["aws", "docker", "terraform", "ci/cd"],
+  },
+  {
+    label: "// frontend_&_concepts",
+    color: "bg-text-primary",
+    items: ["react", "tailwind", "system_design", "distributed_systems"],
+  },
+];
 ---
 
-<Section text="About Me" href="about">
-  <div class="flex flex-col items-center gap-12 md:flex-row md:gap-8">
-    <p class="w-auto text-base text-neutral md:pr-5">{description}</p>
+<Section text="who i am" href="about">
+  <div class="flex flex-col gap-10">
+    <p class="font-body text-sm leading-relaxed text-text-secondary">
+      {description.toLowerCase().trim()}
+    </p>
+
+    <div class="w-full">
+      <span class="mb-4 block font-mono text-[11px] font-semibold text-text-secondary">
+        // tech_stack
+      </span>
+      <div class="grid grid-cols-2 border border-border">
+        {
+          skillGroups.map(({ label, color, items }) => (
+            <div class="border border-border p-4">
+              <span class="mb-3 block font-mono text-[10px] font-semibold text-text-secondary">{label}</span>
+              <div class="flex flex-col gap-2">
+                {items.map((skill) => (
+                  <div class="flex items-center gap-2">
+                    <span class={`h-1.5 w-1.5 rounded-full ${color}`} />
+                    <span class="font-mono text-xs text-text-primary">{skill}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </Section>

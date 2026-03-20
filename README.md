@@ -1,35 +1,91 @@
-# AstroZen - Personal Portfolio Website
+# Terminal Portfolio
 
-AstroZen is a minimalist, accessible and responsive portfolio template for your personal portfolio website. It is built with Astro and TailwindCSS.
+A customizable developer portfolio with an industrial dark terminal aesthetic. Built with Astro 5 and Tailwind CSS v4.
 
-![zen-og](https://github.com/user-attachments/assets/7a72aaae-6652-4cd0-becc-8e6a3c224993)
+## Tech Stack
 
-> [!NOTE]
-> The information contained in this template, including names, images, and content, is entirely fictitious and is intended solely to give the design a realistic appearance. Any coincidence with real-life people, events, or situations is purely coincidental. It is recommended that you replace this information with your own information.
+- **Framework:** Astro 5
+- **Styling:** Tailwind CSS v4
+- **Fonts:** JetBrains Mono, Space Grotesk, IBM Plex Mono
 
-## 🔥 Features
+## Getting Started
 
-- [x] Minimalist design. clean and simple
-- [x] Mobile-first responsive layout
-- [x] SEO-friendly and accessible
-- [x] Easy to customize with a single configuration file
-
-## ✅ Lighthouse Score
-
-![performance](https://github.com/user-attachments/assets/4f95e2ca-03f9-4996-9e34-dcd179194c58)
-
-## 🚀 Getting Started
-
-Clone this repository to your local machine using Git.
-
-```scheme
-git clone https://github.com/immois/astro-zen.git
-cd astro-zen
+```bash
+pnpm install
+pnpm dev
 ```
 
-| Command        | Action                                       |
-| :------------- | :------------------------------------------- |
-| `pnpm install` | Installs dependencies                        |
-| `pnpm dev`     | Starts local dev server at `localhost:4321`  |
-| `pnpm build`   | Build your production site to `./dist/`      |
-| `pnpm preview` | Preview your build locally, before deploying |
+| Command        | Action                                      |
+| :------------- | :------------------------------------------ |
+| `pnpm install` | Install dependencies                        |
+| `pnpm dev`     | Start local dev server at `localhost:4321`   |
+| `pnpm build`   | Build production site to `./dist/`           |
+| `pnpm preview` | Preview build locally before deploying       |
+
+## Customization
+
+All content is configured in two places:
+
+### 1. Site Config — `src/config/index.ts`
+
+This is the main file you need to edit. It contains two objects:
+
+**`SITE_CONFIG`** — global site settings:
+
+| Field          | What it controls                                      |
+| :------------- | :---------------------------------------------------- |
+| `title`        | Browser tab title and SEO title                       |
+| `description`  | Meta description for SEO                              |
+| `navLinks`     | Navigation menu items (text + anchor href)             |
+| `socialLinks`  | Social links shown in the hero and footer              |
+| `email`        | Used for the copy-to-clipboard contact buttons         |
+| `brandName`    | The `> name` shown in the header and footer            |
+| `socialImage`  | OG image filename (place in `public/`)                 |
+| `canonicalURL` | Your deployed site URL                                 |
+
+**`SITE_CONTENT`** — page content:
+
+| Section      | Fields                                                      |
+| :----------- | :---------------------------------------------------------- |
+| `hero`       | `name`, `specialty`, `summary`, `email`, `resume`           |
+| `experience` | Array of jobs with `company`, `position`, dates, `summary`  |
+| `projects`   | Array with `name`, `summary`, `image`, `linkPreview`, `linkSource` |
+| `about`      | `description` text                                          |
+
+### 2. Tech Stack — `src/components/About.astro`
+
+The skill categories and items in the About section are configured directly in the component. Edit the arrays to match your own skills.
+
+### Resume
+
+1. Place your resume PDF in the `public/` folder (e.g. `public/My_Resume.pdf`)
+2. Set the `resume` field in `SITE_CONTENT.hero` to match: `"/My_Resume.pdf"`
+3. Remove the field or set it to `undefined` to hide the download button
+
+### Project Images
+
+- Place project screenshots in `public/`
+- Single image: set `image` to a string like `"/project.png"`
+- Slideshow: set `image` to an array like `["/shot1.png", "/shot2.png", "/shot3.png"]`
+- Omit `linkPreview` and `linkSource` to show a "coming soon" label
+
+### Colors & Theme
+
+Design tokens are defined in `src/styles/global.css` using CSS custom properties. The main accent colors:
+
+- Green (`--color-green`): primary accent, CTA buttons, active states
+- Amber (`--color-amber`): secondary accent, highlights
+- Cyan (`--color-cyan`): tertiary accent
+
+## Project Structure
+
+```
+src/
+├── components/     # Astro components (Header, Hero, Experience, Projects, About, Footer)
+├── config/         # Site configuration and content
+├── layouts/        # Main layout with SEO meta tags
+├── pages/          # Page routes
+├── styles/         # Global CSS and theme tokens
+└── types/          # TypeScript interfaces
+public/             # Static assets (images, resume PDF, favicon)
+```

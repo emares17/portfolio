@@ -4,20 +4,23 @@ import type { HeaderProps } from "@types";
 
 type Props = HeaderProps;
 
-const { navLinks } = Astro.props;
+const { navLinks, email, brandName } = Astro.props;
+const displayName = brandName || "portfolio";
 ---
 
 <header
-  class="sticky top-0 z-50 mx-auto flex max-w-5xl animate-slide-in justify-between bg-black px-5 py-6"
+  class="sticky top-0 z-50 w-full animate-slide-in border-b border-border bg-bg"
 >
-  <a href="/" aria-label="Home link" class="relative inline-block text-white text-base font-semibold after:content-[''] after:absolute after:left-0 after:bottom-2 after:h-[3.5px] after:w-0 after:bg-white after:transition-all hover:after:w-full">
-   EM.
+<div class="flex items-center justify-between px-10 py-5">
+  <a href="/" aria-label="Home link" class="flex items-center gap-2">
+    <span class="font-mono text-xl font-bold text-green">&gt;</span>
+    <span class="nav-typing font-mono text-sm font-medium text-text-primary" style={`--chars: ${displayName.length}`}>{displayName}</span>
   </a>
 
   <button
     type="button"
     id="menu-button"
-    class="px-1.5 text-neutral sm:hidden"
+    class="px-1.5 text-text-secondary sm:hidden"
     aria-expanded="false"
     aria-controls="main-menu"
   >
@@ -25,28 +28,34 @@ const { navLinks } = Astro.props;
   </button>
 
   <nav
-    class="absolute top-20 right-5 hidden rounded-xl border border-neutral/40 bg-black px-4 py-5 text-neutral sm:static sm:block sm:border-0 sm:bg-transparent sm:p-0"
+    class="absolute top-16 right-5 hidden border border-border bg-bg px-4 py-5 sm:static sm:flex sm:items-center sm:gap-6 sm:border-0 sm:bg-transparent sm:p-0"
     id="main-menu"
   >
-    <ul class="gap-2 sm:flex">
+    <ul class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-6">
       {
-        navLinks.map((link) => (
-          <li class="relative">
+        navLinks.map((link, i) => (
+          <li>
             <a
-              class={`nav-item relative block p-2 text-sm font-medium transition-all duration-500 after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-primary after:opacity-0 after:content-['•'] hover:text-white`}
+              class={`nav-item block py-2 font-mono text-[13px] transition-colors hover:text-green ${i === 0 ? "text-green" : "text-text-secondary"}`}
               href={link.href}
             >
-              {link.text}
+              {link.text.toLowerCase()}
             </a>
           </li>
         ))
       }
     </ul>
+    <button
+      class="copy-email-btn mt-3 block cursor-pointer bg-green px-4 py-2 font-mono text-xs font-medium text-bg transition-opacity hover:opacity-90 sm:mt-0"
+      data-email={email}
+    >
+      $ contact
+    </button>
   </nav>
+</div>
 </header>
 
 <script>
-  // Toggle mobile menu
   const button = document.querySelector("#menu-button");
   const menu = document.querySelector("#main-menu");
   const navItems = document.querySelectorAll("#main-menu > ul > li > a");
@@ -62,16 +71,17 @@ const { navLinks } = Astro.props;
     item?.addEventListener("click", toggleMenu);
   });
 
-  // Update navigation based on scroll position with Intersection Observer
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           navItems.forEach((item) => {
             if (item.getAttribute("href") === `#${entry.target.id}`) {
-              item.classList.add("text-white", "md:after:opacity-100");
+              item.classList.add("text-green");
+              item.classList.remove("text-text-secondary");
             } else {
-              item.classList.remove("text-white", "md:after:opacity-100");
+              item.classList.remove("text-green");
+              item.classList.add("text-text-secondary");
             }
           });
         }
@@ -84,7 +94,6 @@ const { navLinks } = Astro.props;
     observer.observe(section);
   });
 
-  // Cleanup observer
   document.onvisibilitychange = () => {
     if (document.visibilityState === "hidden") {
       observer.disconnect();
@@ -100,5 +109,29 @@ const { navLinks } = Astro.props;
   header {
     animation-timeline: scroll();
     animation-range: 0 650px;
+  }
+
+  .nav-typing {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid #10B981;
+    width: calc(var(--chars) * 1ch);
+    animation:
+      type-loop 6s steps(var(--chars)) infinite,
+      blink 600ms step-end infinite;
+  }
+
+  /* type in, hold, erase, pause, repeat */
+  @keyframes type-loop {
+    0%   { width: 0; }
+    25%  { width: calc(var(--chars) * 1ch); }
+    75%  { width: calc(var(--chars) * 1ch); }
+    90%  { width: 0; }
+    100% { width: 0; }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
   }
 </style>

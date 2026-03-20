@@ -20,6 +20,8 @@ export interface HeroProps {
   specialty: string;
   summary: string;
   email: string;
+  resume?: string;
+  socialLinks?: { text: string; href: string }[];
 }
 
 export interface ExperienceProps {
@@ -33,7 +35,7 @@ export interface ExperienceProps {
 export interface ProjectProps {
   name: string;
   summary: string;
-  image: string;
+  image: string | string[];
   linkPreview?: string;
   linkSource?: string;
 }
@@ -44,4 +46,6 @@ export interface AboutProps {
 
 export interface HeaderProps {
   navLinks: { text: string; href: string }[];
+  email?: string;
+  brandName?: string;
 }

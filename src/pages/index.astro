@@ -1,5 +1,5 @@
 ---
-import { SITE_CONTENT } from "@config";
+import { SITE_CONTENT, SITE_CONFIG } from "@config";
 import Hero from "@components/Hero.astro";
 import Layout from "@layouts/Layout.astro";
 import Experience from "@components/Experience.astro";
@@ -10,7 +10,7 @@ import "../styles/global.css";
 ---
 
 <Layout>
-  <Hero {...SITE_CONTENT.hero} />
+  <Hero {...SITE_CONTENT.hero} socialLinks={SITE_CONFIG.socialLinks} />
   <Experience experience={SITE_CONTENT.experience} />
   <Projects projects={SITE_CONTENT.projects} />
   <About {...SITE_CONTENT.about} />

@@ -1,7 +1,15 @@
 ---
 import Header from "@components/Header.astro";
-import "@fontsource/be-vietnam-pro";
-import "@fontsource-variable/gabarito";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
+import "@fontsource/jetbrains-mono/600.css";
+import "@fontsource/jetbrains-mono/700.css";
+import "@fontsource/space-grotesk/400.css";
+import "@fontsource/space-grotesk/500.css";
+import "@fontsource/space-grotesk/600.css";
+import "@fontsource/space-grotesk/700.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
 import { SITE_CONFIG } from "@config";
 import Footer from "@components/Footer.astro";
 
@@ -11,6 +19,8 @@ const {
   navLinks,
   lang,
   author,
+  email,
+  brandName,
   socialLinks,
   socialImage,
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
@@ -40,11 +50,11 @@ const ogImgUrl = canonicalURL + socialImage;
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={ogImgUrl} />
   </head>
-  <body class="bg-black font-sans">
-    <Header navLinks={navLinks} />
-    <main class="mx-auto max-w-3xl px-5">
+  <body class="bg-bg font-sans text-text-primary">
+    <Header navLinks={navLinks} email={email} brandName={brandName} />
+    <main class="mx-auto max-w-6xl px-10">
       <slot />
     </main>
-    <Footer author={author} socialLinks={socialLinks} />
+    <Footer author={author} socialLinks={socialLinks} email={email} brandName={brandName} />
   </body>
 </html>

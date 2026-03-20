@@ -16,6 +16,8 @@ export const SITE_CONFIG: SiteConfig = {
     { text: "LinkedIn", href: "https://www.linkedin.com/in/devesteban/" },
     { text: "Github", href: "https://github.com/emares17" },
   ],
+  email: "estebanmares17@gmail.com",
+  brandName: "esteban_mares",
   socialImage: "/zen-og.png",
   canonicalURL: "https://astro-zen.vercel.app",
 };
@@ -25,30 +27,32 @@ export const SITE_CONTENT: SiteContent = {
     name: "Esteban Mares",
     specialty: "Software Engineer",
     summary:
-      "Software engineer based in California, passionate about creating efficient solutions. I specialize in full-stack development, system optimization, and building scalable web applications that solve real-world problems.",
-    email: "estebanmares17@gmail.com"
+      "Software engineer in California. I build full-stack applications and backend systems, with a focus on performance. I've shipped production tools used daily and optimized systems handling millions of events per second.",
+    email: "estebanmares17@gmail.com",
+    resume: "/Esteban_M_Resume.pdf",
   },
   experience: [
     {
       company: "Amazon Web Services",
-      position: "Software Developer Engineer Intern",
+      position: "Software Development Engineer Intern",
       startDate: "June 2024",
-      endDate: "Sept 2024",
+      endDate: "September 2024",
       summary: [
-        "Developed a high-performance serialization/deserialization module in Java using Amazon Ion, achieving a 40% latency improvement for Kinesis Data Streams.",
-        "Authored a comprehensive design document detailing system architecture, Ion integration strategy, and performance optimization techniques.",
-        "Developed unit and integration tests for the serialization module and integrated changes through established team deployment processes",
+        "Identified JSON serialization overhead as the root cause of timeout failures in a KDS caching service processing millions of events per second.",
+        "Migrated the service to Amazon Ion binary serialization, reducing P99 latency by 40% using a schema-less binary format to handle variable-shaped objects.",
+        "Authored a 5,000+ word Technical Design Document covering problem analysis, protocol evaluation, and test plan, delivering two weeks ahead of schedule.",
+        "Validated the migration end-to-end by writing new JUnit unit and integration tests for the Ion serialization layer, maintaining system stability throughout deployments.",
       ],
     },
     {
       company: "Fleetpride",
       position: "Inventory Analyst",
-      startDate: "Nov 2021",
+      startDate: "November 2021",
       endDate: "June 2024",
       summary: [
-        "Conducted systematic root cause analysis of data discrepancies, applying problem-solving methodologies to improve system accuracy to over 96%",
-        "Developed automated reporting solutions using Microsoft Excel and JDA systems, enabling data visualization and data-driven decision making.",
-        "Collaborated with leadership to analyze data trends, implementing process improvements that reduced errors and enhanced operational efficiency.",
+        "Automated data validation using Python (Pandas) and Excel Macros, replacing manual verification and saving 10+ hours/week of labor.",
+        "Built ETL workflows to clean supply chain datasets, improving data accuracy from 85% to 96% and preventing $165K+ in annual losses.",
+        "Analyzed $5M in inventory to identify root causes of inefficiencies, reducing holding costs by 17%.",
       ],
     },
   ],
@@ -58,7 +62,26 @@ export const SITE_CONTENT: SiteContent = {
       summary: "A barcode label generator that transforms CSV and Excel data into print-ready label sheets in seconds.",
       linkPreview: "https://labelgenius.up.railway.app/",
       linkSource: "https://github.com/emares17/BarcodeGenerator",
-      image: "/LabelGenius.png",
+      image: ["/LabelGenius.png", "/LabelGenius-Login.png", "/LabelGenius-Dashboard.png"],
+    },
+    {
+      name: "UFC Fight Prediction System",
+      summary: "A four-node LangGraph agent pipeline that coordinates live odds fetching, ML predictions, and Claude-powered fight analysis with calibrated betting recommendations.",
+      image: "/UFC-Main.png",
+    },
+    {
+      name: "Vehicle Value Predictor",
+      summary: "A Random Forest model trained on 3M+ vehicle records achieving an R² of 0.829, with an ETL pipeline and React frontend visualizing predicted values and depreciation timelines.",
+      linkPreview: "https://vehicle-value-predictor.up.railway.app/",
+      linkSource: "https://github.com/emares17/vehicle-equity-predictor",
+      image: "/Vehicle-Value.png",
+    },
+    {
+      name: "Daily LeetCode Solutions",
+      summary: "An automated LeetCode blog that tracks your daily coding solutions with beautiful IDE-themed presentation and GitHub Actions workflow.",
+      linkPreview: "https://daily-leetcode-tracker.vercel.app/",
+      linkSource: "https://github.com/emares17/daily-leetcode-tracker",
+      image: ["/DailyLC.png", "/DailyLC-Problem.png"],
     },
     {
       name: "Shortly",
@@ -67,17 +90,10 @@ export const SITE_CONTENT: SiteContent = {
       linkSource: "https://github.com/emares17/Url-shortner",
       image: "/Shortly.png",
     },
-    {
-      name: "Daily LeetCode Solutions",
-      summary: "An automated LeetCode blog that tracks your daily coding solutions with beautiful IDE-themed presentation and GitHub Actions workflow.",
-      linkPreview: "https://daily-leetcode-tracker.vercel.app/",
-      linkSource: "https://github.com/emares17/daily-leetcode-tracker",
-      image: "/DailyLC.png",
-    },
   ],
   about: {
     description: `
-      I'm a passionate software engineer and full-stack developer with expertise in Java, Python, React, and Node.js. I specialize in building scalable, responsive web applications and have hands-on experience as both a frontend developer and backend developer. Skilled in API development, database design, agile methodologies, and cloud deployment, I thrive in collaborative environments and am driven to solve real-world business challenges through high-quality software solutions. I'm currently seeking opportunities as a software engineer, full-stack developer, or backend engineer.
+      I'm a software engineer who works across the stack. Java and Python on the backend, React on the frontend. I've built prediction systems, internal tools, and production platforms. At AWS, I debugged a caching service processing millions of events per second and cut its latency by 40%. I build things when I see gaps. A process that takes too long, a tool that should exist but doesn't.
       `
   },
 };

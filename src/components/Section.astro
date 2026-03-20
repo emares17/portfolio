@@ -5,13 +5,17 @@ interface Props {
 }
 
 const { text, href } = Astro.props;
+
+const sectionLabel = `// ${text.toLowerCase().replace(/\s+/g, "_")}`;
+const displayText = text.toLowerCase();
 ---
 
-<section id={href} class="py-24">
-  <h2
-    class="mb-14 font-serif text-4xl font-bold tracking-tighter text-white md:text-5xl"
-  >
-    {text}
+<section id={href} class="py-16 md:py-24">
+  <span class="mb-4 block font-mono text-[11px] font-semibold text-text-secondary">
+    {sectionLabel}
+  </span>
+  <h2 class="mb-10 text-4xl font-bold tracking-tight text-text-primary md:text-5xl">
+    {displayText}
   </h2>
   <slot />
 </section>

@@ -8,52 +8,124 @@ interface Props {
 }
 
 const { projects } = Astro.props;
+
+const numColors = ["text-green", "text-amber", "text-cyan"];
 ---
 
-<Section text="Featured Projects" href="projects">
-  {
-    projects.map(({ name, summary, image, linkPreview, linkSource }, index) => {
-      const top = 98 + index * 40;
-      return (
-        <div
-          style={`top: ${top}px;`}
-          class="sticky mb-12 rounded-2xl border border-neutral/20 bg-black"
-        >
-          <div class="bg-difu relative z-[1] grid h-[580px] w-full grid-rows-2 rounded-2xl bg-[#1c232d]/85 before:absolute before:inset-0 before:z-[-1] before:rounded-2xl before:bg-[url(/raja.png)] before:bg-[length:128px] before:bg-repeat before:opacity-[5%] before:content-[''] sm:grid-cols-2 sm:grid-rows-1 md:h-96">
-            <div class="px-6 pt-12">
-              <h3 class="mb-5 font-serif text-3xl font-medium text-primary">
-                {name}
+<Section text="things i've built" href="projects">
+  <div class="flex flex-col gap-6">
+    {
+      projects.map(({ name, summary, image, linkPreview, linkSource }, index) => {
+        const numColor = numColors[index % numColors.length];
+        const num = String(index + 1).padStart(2, "0");
+        const nameSlug = name.toLowerCase().replace(/\s+/g, "_");
+        const images = Array.isArray(image) ? image : [image];
+        const isSlideshow = images.length > 1;
+
+        return (
+          <div class="flex flex-col border border-border md:flex-row">
+            <div class="relative h-56 w-full overflow-hidden bg-surface md:h-[280px] md:w-[440px] md:shrink-0">
+              {images.map((src, i) => (
+                <Image
+                  class={`h-full w-full object-cover ${isSlideshow ? `slideshow-img absolute inset-0 transition-opacity duration-700 ${i === 0 ? "opacity-100" : "opacity-0"}` : ""}`}
+                  src={src}
+                  alt={`${name} screenshot ${i + 1}`}
+                  width="440"
+                  height="280"
+                  data-slide-index={i}
+                />
+              ))}
+              {isSlideshow && (
+                <div class="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-2">
+                  {images.map((_, i) => (
+                    <button
+                      class={`slideshow-dot h-1.5 w-1.5 rounded-full transition-colors ${i === 0 ? "bg-green" : "bg-text-muted"}`}
+                      data-dot-index={i}
+                      aria-label={`Show image ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+            <div class="flex flex-col justify-center gap-4 p-8">
+              <span class={`font-mono text-[10px] font-medium ${numColor}`}>
+                [{num}]
+              </span>
+              <h3 class="text-2xl font-bold text-text-primary md:text-[28px]">
+                {nameSlug}
               </h3>
-              <p class="text-base text-neutral">{summary}</p>
-              <div class="flex gap-5 pt-10 text-white">
-                <a
-                  href={linkSource}
-                  target="_blank"
-                  class="after:relative after:bottom-[-5px] after:content-[url(/external.svg)] hover:underline"
-                >
-                  Source
-                </a>
-                <a
-                  href={linkPreview}
-                  target="_blank"
-                  class="after:relative after:bottom-[-5px] after:content-[url(/external.svg)] hover:underline"
-                >
-                  Preview
-                </a>
+              <p class="font-body text-[13px] leading-relaxed text-text-secondary">
+                {summary.toLowerCase()}
+              </p>
+              <div class="flex items-center gap-4">
+                {linkSource ? (
+                  <a
+                    href={linkSource}
+                    target="_blank"
+                    class="font-mono text-xs font-medium text-green transition-opacity hover:opacity-80"
+                  >
+                    $ source &gt;&gt;
+                  </a>
+                ) : null}
+                {linkPreview ? (
+                  <a
+                    href={linkPreview}
+                    target="_blank"
+                    class="font-mono text-xs font-medium text-text-secondary transition-colors hover:text-text-primary"
+                  >
+                    $ preview &gt;&gt;
+                  </a>
+                ) : null}
+                {!linkSource && !linkPreview && (
+                  <span class="font-mono text-xs font-medium text-amber">
+                    // coming_soon
+                  </span>
+                )}
               </div>
             </div>
-            <div class="flex items-end justify-end overflow-hidden">
-              <Image
-                class="h-full w-[95%] rounded-ss-xl rounded-ee-2xl object-none object-left-top sm:h-[85%] sm:w-full"
-                src={image}
-                alt={name}
-                width="736"
-                height="483"
-              />
-            </div>
           </div>
-        </div>
-      );
-    })
-  }
+        );
+      })
+    }
+  </div>
 </Section>
+
+<script>
+  function initSlideshows() {
+    const containers = document.querySelectorAll(".slideshow-dot");
+    if (!containers.length) return;
+
+    // Group dots and images by parent container
+    const cardEls = document.querySelectorAll("#projects .border");
+    cardEls.forEach((card) => {
+      const imgs = card.querySelectorAll(".slideshow-img");
+      const dots = card.querySelectorAll(".slideshow-dot");
+      if (imgs.length <= 1) return;
+
+      let current = 0;
+
+      const goTo = (index: number) => {
+        imgs.forEach((img, i) => {
+          (img as HTMLElement).classList.toggle("opacity-100", i === index);
+          (img as HTMLElement).classList.toggle("opacity-0", i !== index);
+        });
+        dots.forEach((dot, i) => {
+          (dot as HTMLElement).classList.toggle("bg-green", i === index);
+          (dot as HTMLElement).classList.toggle("bg-text-muted", i !== index);
+        });
+        current = index;
+      };
+
+      // Click dots to navigate
+      dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => goTo(i));
+      });
+
+      // Auto-advance every 3 seconds
+      setInterval(() => {
+        goTo((current + 1) % imgs.length);
+      }, 3000);
+    });
+  }
+  initSlideshows();
+</script>

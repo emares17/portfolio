@@ -2,31 +2,148 @@
 import type { HeroProps } from "@types";
 type Props = HeroProps;
 
-const { name, specialty, summary, email } = Astro.props;
+const { name, summary, email, resume, socialLinks } = Astro.props;
+
+const [firstName, lastName] = name.split(" ");
 ---
 
-<section class="py-24 md:py-32" id="#hero">
-  <h1
-    class="mb-1.5 font-serif text-7xl font-bold tracking-tightest text-white sm:text-8xl md:mb-0 md:text-9xl"
-  >
-    {name}
-  </h1>
-  <p
-    class="mb-9 font-serif text-4xl leading-[46px] font-bold tracking-tighter text-primary sm:text-5xl md:text-6xl"
-  >
-    {specialty}
-  </p>
-  <p class="mb-16 text-base font-normal text-neutral md:text-lg">
-    {summary}
+<section class="py-20 md:py-28" id="#hero">
+  <span class="mb-8 block font-mono text-[11px] font-semibold text-text-secondary">
+    // software_engineer
+  </span>
+
+  <div class="mb-10 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+    <div>
+      <h1 class="hero-typing hero-first text-6xl font-bold leading-[0.9] tracking-tightest text-text-primary sm:text-7xl md:text-8xl lg:text-[96px]">
+        {firstName.toLowerCase()}
+      </h1>
+      <h1 class="hero-typing hero-last text-6xl font-bold leading-[0.9] tracking-tightest text-green sm:text-7xl md:text-8xl lg:text-[96px]">
+        {lastName.toLowerCase()}.
+      </h1>
+    </div>
+
+    <div class="mt-6 flex flex-col items-start gap-3 md:mt-0 md:items-end">
+      <div class="flex items-center gap-2">
+        <span class="status-dot relative h-2 w-2 rounded-full bg-green"></span>
+        <span class="font-mono text-xs text-green">[active] open_to_work</span>
+      </div>
+      <span class="font-body text-xs text-text-secondary">visalia, california, usa</span>
+    </div>
+  </div>
+
+  <p class="mb-12 max-w-2xl font-body text-sm leading-relaxed text-text-secondary md:text-base">
+    {summary.toLowerCase()}
   </p>
 
-  <div class="flex flex-wrap items-center  gap-6 mb-12">
-    <a
-      class="inline-block rounded-full bg-primary px-8 py-5 text-sm leading-5 font-medium text-[#fff]"
-      href={`mailto:${email}`}
+  <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+    <button
+      id="copy-email"
+      data-email={email}
+      class="cursor-pointer bg-green px-6 py-3 font-mono text-sm font-medium text-bg transition-opacity hover:opacity-90"
     >
-      Get in Touch
-    </a>
-</div>
-
+      $ get_in_touch
+    </button>
+    {resume && (
+      <a
+        href={resume}
+        download
+        class="font-mono text-xs font-medium text-green transition-opacity hover:opacity-80"
+      >
+        $ resume &gt;&gt;
+      </a>
+    )}
+    {socialLinks?.map(({ text, href }) => (
+      <a
+        href={href}
+        target="_blank"
+        class="font-mono text-xs font-medium text-text-secondary transition-colors hover:text-text-primary"
+      >
+        $ {text.toLowerCase()} &gt;&gt;
+      </a>
+    ))}
+  </div>
 </section>
+
+<script>
+  function setupCopyButtons() {
+    const buttons = document.querySelectorAll("#copy-email, .copy-email-btn");
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const email = (btn as HTMLElement).dataset.email;
+        if (!email) return;
+        await navigator.clipboard.writeText(email);
+        const original = btn.textContent;
+        btn.textContent = "// copied!";
+        setTimeout(() => {
+          btn.textContent = original;
+        }, 1500);
+      });
+    });
+  }
+  setupCopyButtons();
+</script>
+
+<style>
+  /* Glowing pulse on the status dot */
+  .status-dot::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 9999px;
+    background: #10B981;
+    opacity: 0.4;
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0;
+      transform: scale(2.2);
+    }
+  }
+
+  /* Typing animation — types in and stays */
+  .hero-typing {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    border-right: 3px solid transparent;
+  }
+
+  .hero-first {
+    animation:
+      hero-type-first 1s steps(7) 0.3s forwards,
+      hero-cursor 600ms step-end 4;
+    border-right-color: #FAFAFA;
+  }
+
+  .hero-last {
+    animation:
+      hero-type-last 1s steps(6) 1.5s forwards,
+      hero-cursor-green 600ms step-end 1.5s 4;
+    border-right-color: transparent;
+  }
+
+  @keyframes hero-type-first {
+    to { width: 7ch; border-right-color: transparent; }
+  }
+
+  @keyframes hero-type-last {
+    to { width: 6ch; border-right-color: transparent; }
+  }
+
+  @keyframes hero-cursor {
+    50% { border-right-color: transparent; }
+  }
+
+  @keyframes hero-cursor-green {
+    0% { border-right-color: #10B981; }
+    50% { border-right-color: transparent; }
+    100% { border-right-color: #10B981; }
+  }
+</style>
