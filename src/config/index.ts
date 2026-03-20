@@ -18,8 +18,8 @@ export const SITE_CONFIG: SiteConfig = {
   ],
   email: "estebanmares17@gmail.com",
   brandName: "esteban_mares",
-  socialImage: "/zen-og.png",
-  canonicalURL: "https://astro-zen.vercel.app",
+  socialImage: "/og-portfolio-image.png",
+  canonicalURL: "https://dev-esteban.up.railway.app",
 };
 
 export const SITE_CONTENT: SiteContent = {
